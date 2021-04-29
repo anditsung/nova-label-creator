@@ -1,0 +1,40 @@
+{
+    "name": "tsung/nova-label-creator",
+    "description": "Nova Label Creator Module",
+    "keywords": [
+        "laravel",
+        "nova"
+    ],
+    "authors": [
+        {
+            "name": "anditsung",
+            "email": "anditsung@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=7.1.0",
+        "laravel/nova": ">=2",
+        "epartment/nova-dependency-container": "1.3.2",
+        "spatie/browsershot": "^3.41.0",
+        "simplesoftwareio/simple-qrcode": "^4"
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Tsung\\NovaLabelCreator\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tsung\\NovaLabelCreator\\ToolServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
