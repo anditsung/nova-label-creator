@@ -24,7 +24,7 @@
                 <progress-button
                     dusk="print-button"
                     type="submit"
-                    :disable="isWorking"
+                    :disabled="isWorking"
                     :processing="wasSubmittedViaPrintLabel"
                 >
                     {{__("Print Label")}}
@@ -97,7 +97,7 @@
                             this.isWorking  = false
 
                             if (error.response.status == 422) {
-                                this.errors = new Errors(error.response.data.errors)
+                                this.validationErrors = new Errors(error.response.data.errors)
                                 Nova.error(this.__('There was a problem executing the action.'))
                             }
                         })

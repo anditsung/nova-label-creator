@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\MessageBag;
 use Illuminate\Validation\ValidationException;
+use Tsung\NovaUserManagement\Traits\SaveToUpper;
 
 class LabelType extends Model
 {
+    use SaveToUpper;
+
     protected $table = 'label_creator_label_types';
 
     protected $fillable = [
@@ -19,6 +22,11 @@ class LabelType extends Model
         'break_count',
         'design',
         'user_id',
+    ];
+
+    protected $no_upper = [
+        'attributes',
+        'design'
     ];
 
     protected $casts = [

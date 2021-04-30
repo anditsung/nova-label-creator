@@ -73,7 +73,7 @@ class PrintLabelController extends Controller
                         'color' => $color,
                         'number' => $number
                     ];
-                    $replace = QrCode::size(240)
+                    $replace = QrCode::size(250)
                         ->errorCorrection('h')
                         ->generate(base64_encode(json_encode($barcode)));
                     break;
@@ -147,7 +147,7 @@ class PrintLabelController extends Controller
                     if($value) {
                         $fields[] = Select::make('Plant')
                             ->options($this->plants())
-                            ->rules('required');
+                            ->required();
                     }
                     break;
 
@@ -155,18 +155,19 @@ class PrintLabelController extends Controller
                     if($value) {
                         $fields[] = Select::make('Color')
                             ->options($this->colors())
-                            ->rules('required');
+                            ->required();
                     }
                     break;
             }
         }
         $fields[] = Text::make('Number')
-            ->rules('required')
+            ->required()
             ->help("Example:<br>1~10<br>1,3,5,11");
 //        $fields[] = Number::make('Start')->rules('required');
 //        $fields[] = Number::make('End')->rules('required');
         $fields[] = Number::make('Copy')
-            ->rules('required');
+            ->default(2)
+            ->required();
 
         return $fields;
     }
@@ -189,8 +190,7 @@ class PrintLabelController extends Controller
     {
         $fields = [
             Select::make('Label Type')
-                ->options($this->label_types())
-                ->rules('required'),
+                ->options($this->label_types()),
         ];
 
         $fields = array_merge($fields, $this->dependFields());
@@ -226,6 +226,14 @@ class PrintLabelController extends Controller
 
     public function labels(NovaRequest $request)
     {
+        $request->validate([
+            'label_type' => 'required',
+            'plant' => 'required|exists:manufacture_plants,id',
+            'color' => 'required',
+            'number' => 'required',
+            'copy' => 'required|numeric'
+        ]);
+
         $export = new ExportToPdf('label-creator::label', $request);
 
         return Action::download($export->getDownloadUrl(), $export->getFilename());
